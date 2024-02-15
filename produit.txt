@@ -1,0 +1,99 @@
+foreign key btween client and commandes
+
+
+create database company;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| information_schema |
+| isgi               |
+| mysql              |
+| performance_schema |
+| sakila             |
+| school             |
+| school_1           |
+| sys                |
+| world              |
++--------------------+
+10 rows in set (0.01 sec)
+
+mysql> use company;
+Database changed
+mysql>
+mysql> create table produit(
+    -> id int primary key ,
+    -> nom varchar(20),
+    -> description varchar(200),
+    -> prix int,
+    -> stock int);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc produit;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int          | NO   | PRI | NULL    |       |
+| nom         | varchar(20)  | YES  |     | NULL    |       |
+| description | varchar(200) | YES  |     | NULL    |       |
+| prix        | int          | YES  |     | NULL    |       |
+| stock       | int          | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table client(
+    -> id int primary key ,
+    -> nom varchar(20),
+    -> prénom varchar(20),
+    -> telephone int ,
+    -> email varchar(100),
+    -> adress varchar(100));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc client;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id        | int          | NO   | PRI | NULL    |       |
+| nom       | varchar(20)  | YES  |     | NULL    |       |
+| prénom    | varchar(20)  | YES  |     | NULL    |       |
+| telephone | int          | YES  |     | NULL    |       |
+| email     | varchar(100) | YES  |     | NULL    |       |
+| adress    | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> creat table commandes (
+    -> id int primary key ,
+    -> FOREIGN KEY (id) REFERENCES client(id),
+    -> date DATE ,
+    -> statu varchar(50),
+    -> total int );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'creat table commandes (
+id int primary key ,
+FOREIGN KEY (id) REFERENCES client(' at line 1
+mysql> create table commandes (
+    -> id int primary key ,
+    -> FOREIGN KEY (id) REFERENCES client(id),
+    -> date_commandes DATE ,
+    -> statu varchar(50),
+    -> total int );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> ALTER TABLE commandes
+    -> ADD CONSTRAINT CHK_STATUT CHECK (statut IN ('en cours', 'livrée', 'annulée'));
+ERROR 1054 (42S22): Unknown column 'statut' in 'check constraint CHK_STATUT expression'
+mysql> ALTER TABLE commandes
+    -> ADD CONSTRAINT CHK_STATU CHECK (statu IN ('en cours', 'livrée', 'annulée'));
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE commandes
+    -> ALTER COLUMN statu SET DEFAULT 'en cours';
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
